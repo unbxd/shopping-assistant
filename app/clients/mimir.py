@@ -22,7 +22,7 @@ class MimirClient:
         if not filters:
             url = f"{mimir_endpoint}/unbxd-search/{site_key}/search?q={query}&{fields}&{rows}"
         else:
-            filter_query = " AND ".join([f"{key}:{urllib.parse.quote(value)}" for key, value in filters.items()])
+            filter_query = " AND ".join([f"{key}:\"{value}\"" for key, value in filters.items()])
             url = f"{mimir_endpoint}/unbxd-search/{site_key}/search?q={query}&{fields}&{rows}&filter={filter_query}"
 
         try:
