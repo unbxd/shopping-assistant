@@ -47,9 +47,7 @@ service:
     REGION: us-east-1
 
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:012629307706:certificate/1489d31b-3b26-4f91-bd8d-91c0ee1688a1
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
 
 ingress:
   enabled: false
