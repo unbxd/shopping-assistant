@@ -65,3 +65,4 @@ DEMO_SITES = {
     }
 }
 
+PRODUCTS_THRESHOLD = int(os.environ.get("PRODUCTS_THRESHOLD", 30))

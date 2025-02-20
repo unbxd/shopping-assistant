@@ -5,7 +5,7 @@ from agents import generate_solr_query, classify_chat, generate_filter_question,
     generate_valid_options
 
 from clients import MimirClient
-from config.config import DEMO_SITES
+from config.config import DEMO_SITES, PRODUCTS_THRESHOLD
 
 chat_store_client = ChatStore()
 mimir_client = MimirClient()
@@ -46,7 +46,7 @@ def chat(vertical, user_id, user_query):
     facets = mimir_response.get("facets", [])
 
     options = []
-    if (mimir_response.get("num_products") > 100) and (len(facets) > 0) and (len(all_filters) <= 3):
+    if (mimir_response.get("num_products") > PRODUCTS_THRESHOLD) and (len(facets) > 0) and (len(all_filters) <= 3):
         top_facet = mimir_response["facets"][0]
         options = top_facet["filter_options"]
         response = generate_filter_question(top_facet)

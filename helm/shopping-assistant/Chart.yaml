@@ -1,7 +1,7 @@
 apiVersion: v1
 name: shoppingassistant
 version: 0.0.7
-appVersion: "v0.0.7"
+appVersion: "v0.0.8"
 description: shoppingassistant service
 home: http://github.com/unbxd/shopping-assistant
 sources:
