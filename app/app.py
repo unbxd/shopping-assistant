@@ -1,21 +1,17 @@
 import uvicorn
-from fastapi import FastAPI, Query
-from pydantic import BaseModel
-
+from fastapi import FastAPI, Query, Request
 from chat import chat
 
 app = FastAPI()
 
-class ChatInput(BaseModel):
-    text: str
-    convo_id: str
-
-
 
 @app.post("/v1.0/verticals/{vertical}/recommend/chat")
-async def active_experiments(vertical: str, chat_input: ChatInput, uid: str = Query(..., description="User ID for tracking")):
-    experiment_list = chat(vertical, uid, chat_input.text)
-    return experiment_list
+async def chat_endpoint(vertical, req: Request):
+    uid = req.query_params.get('uid')
+    request_data = await req.json()
+    text = request_data.get('text', '')
+    response = chat(vertical, uid, text)
+    return response
 
 
 if __name__ == "__main__":
