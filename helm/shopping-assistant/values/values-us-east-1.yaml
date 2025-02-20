@@ -39,7 +39,7 @@ service:
   portHttps: 443
   targetPort:
     name: http
-    port: 8501
+    port: 8000
   env:
     LOG_LEVEL: ERROR
     SERVICE: shopping-assistant
