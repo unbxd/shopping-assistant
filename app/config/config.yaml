@@ -1,0 +1,14 @@
+
+proxy:
+    user:
+    password:
+    ip:
+    port:
+
+mimir_endpoints:
+    us_east_1: http://mimir.prod.use-1d.infra
+    ap_southeast_1: http://mimir.prod.ap-southeast-1.infra
+    ap_southeast_2: http://mimir.prod.ap-southeast-2.infra
+    eu_west_2: http://mimir.prod.eu-west-2.infra
+    us_east_4: http://mimir.pilot-rc-unbxd.infra
+    australia_southeast_1: http://mimir.prod.australia-southeast1.infra
