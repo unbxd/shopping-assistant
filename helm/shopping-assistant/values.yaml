@@ -1,0 +1,75 @@
+replicaCount: 1
+
+image:
+  repository: 012629307706.dkr.ecr.us-east-1.amazonaws.com/shopping-assistant
+  tag: latest
+  pullPolicy: IfNotPresent
+  secret: us-east-ecr
+
+releaseTag: latest
+
+nameOverride: ""
+fullnameOverride: ""
+
+region: us-east-1
+app: shopping-assistant
+env: production
+dogstatsd: statsd.prod.eu-west-2.infra
+runenv: prod
+
+statsd:
+  host: statsd.prod.eu-west-2.infra
+  port: 8125
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+serviceMonitor:
+  create: false
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort:
+    name: http
+    port: 8501
+  env:
+    LOG_LEVEL: ERROR
+    SERVICE: shoppingassistant
+    ENV: prod
+    REGION: us-east-1
+
+  annotations: {}
+
+ingress:
+  enabled: false
+  annotations:
+     kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: shoppingassistant.prod.use-1d.infra
+      paths:
+        - "/"
+
+  tls: []
+
+resources:
+   limits:
+     cpu: "1"
+     memory: 512Mi
+   requests:
+     cpu: "500m"
+     memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
