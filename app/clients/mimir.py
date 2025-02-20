@@ -19,11 +19,11 @@ class MimirClient:
         fields = "fields=name,imageUrl,price"
         rows = "rows=10"
 
-        if filters is None:
+        if not filters:
             url = f"{mimir_endpoint}/unbxd-search/{site_key}/search?q={query}&{fields}&{rows}"
         else:
-            filter_query = urllib.parse.quote("&".join([f"fq={key}:{value}" for key, value in filters.items()]))
-            url = f"{mimir_endpoint}/unbxd-search/{site_key}/search?q={query}&{fields}&{rows}&{filter_query}"
+            filter_query = " AND ".join([f"{key}:{urllib.parse.quote(value)}" for key, value in filters.items()])
+            url = f"{mimir_endpoint}/unbxd-search/{site_key}/search?q={query}&{fields}&{rows}&filter={filter_query}"
 
         try:
             print(f"SOLR URL: {url}")
@@ -77,5 +77,12 @@ if __name__ == "__main__":
 
     _response = client.fetch("eu-west-2", "ss-unbxd-prod-waitrose37331668673646", "apples",
                              {"diet_uFilter": "eggfree", "brandName_uFilter": "Ella's Kitchen"})
+    print(json.dumps(_response, indent=4))
+    # print([site for site in all_sites if (site is not None) and ("lulu" in site)])
+    print("\n\n")
+
+
+    _response = client.fetch("eu-west-2", "ss-unbxd-prod-waitrose37331668673646", "apples",
+                             {"diet_uFilter": "eggfree", "brandName_uFilter": "Robinsons"})
     print(json.dumps(_response, indent=4))
     # print([site for site in all_sites if (site is not None) and ("lulu" in site)])
