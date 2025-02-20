@@ -54,6 +54,11 @@ spec:
                 secretKeyRef:
                   key: AWS_SECRET_ACCESS_KEY
                   name: aws-secret
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: EMBEDDINGS_API_KEY
+                  name: embedding-secret
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort.port }}
