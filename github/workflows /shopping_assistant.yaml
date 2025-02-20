@@ -1,0 +1,98 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    if: github.repository == 'unbxd/shopping-assistant'
+    runs-on: ubuntu-20.04
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      ECR_URL: ${{ secrets.US_EAST_1_ECR_URL }}
+      GCR_URL: ${{ secrets.GCR_URL }}
+      GCR_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      SERVICE: shopping-assistant
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION}}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        id: configure-aws-creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION}}
+
+      - name: Extract Tag
+        id: extract_tag
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          TAG=${{ github.event.release.tag_name }}
+          tag=$GITHUB_SHA
+          if [ -z "$GITHUB_HEAD_REF" ]; then
+              if [ "${GITHUB_REF#refs/heads/}" == "master" ]; then
+                  tag=latest
+              fi
+              if [ -n "$TAG" ]; then
+                  tag=$TAG
+              fi
+          else
+              tag="PR_${GITHUB_ACTOR}_${GITHUB_HEAD_REF}";
+          fi
+          echo ::set-output name=BUILD_TAG::$(echo $tag)
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build docker image
+        id: build-image
+        run: |
+          docker build -t $SERVICE:latest .
+
+      - name: Push Image
+        id: push-image
+        env:
+          TAG: ${{ steps.extract_tag.outputs.BUILD_TAG }}
+        run: |
+          docker tag $SERVICE:latest $ECR_URL/$SERVICE:$TAG
+          docker push $ECR_URL/$SERVICE:$TAG
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCR_SERVICE_KEY }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: Push Docker image To GCR
+        if: ${{ steps.step_needed.outputs.OUT != 'false' }}
+        id: image-push-gcr
+        env:
+          TAG: ${{ steps.extract_tag.outputs.BUILD_TAG }}
+        run: |
+          gcloud auth configure-docker -q
+          docker tag $SERVICE:latest $GCR_URL/$GCR_PROJECT_ID/$SERVICE:$TAG
+          docker push $GCR_URL/$GCR_PROJECT_ID/$SERVICE:$TAG
+
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#platform-github-actions'
+        if: always()
