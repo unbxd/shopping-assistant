@@ -1,7 +1,9 @@
 import json
 
 from chat_store import ChatStore
-from agents import generate_solr_query, classify_chat, generate_filter_question, generate_chat_response
+from agents import generate_solr_query, classify_chat, generate_filter_question, generate_chat_response, \
+    generate_valid_options
+
 from clients import MimirClient
 from config.config import DEMO_SITES
 
@@ -27,6 +29,7 @@ def chat(vertical, user_id, user_query):
 
     if user_query in prev_options:
         all_filters.append([prev_filter_field, user_query])
+        chat_type = "old_conversation"
     else:
         chat_type = classify_chat(msg_history)
 
@@ -38,7 +41,7 @@ def chat(vertical, user_id, user_query):
 
         solr_query = generate_solr_query(vertical, msg_history)
 
-    mimir_response = mimir_client.fetch(region, site_key, solr_query, {k:v for k, v in all_filters})
+    mimir_response = mimir_client.fetch(region, site_key, solr_query, {k: v for k, v in all_filters})
     products = mimir_response["products"]
     facets = mimir_response.get("facets", [])
 
@@ -46,11 +49,13 @@ def chat(vertical, user_id, user_query):
     if (mimir_response.get("num_products") > 100) and (len(facets) > 0) and (len(all_filters) <= 3):
         top_facet = mimir_response["facets"][0]
         options = top_facet["filter_options"]
+        response = generate_filter_question(top_facet)
+        options = generate_valid_options(solr_query, {k[0]: k[1] for k in all_filters}, response, options)
+
         all_filters.append([top_facet["filter_field"], options])
         prev_filter_field = top_facet["filter_field"]
         prev_options = options
         products = []
-        response = generate_filter_question(top_facet)
     else:
         response = generate_chat_response(vertical, msg_history, products)
 
@@ -65,9 +70,19 @@ def chat(vertical, user_id, user_query):
     })
 
     full_response = {
-        "response": response,
-        "options": options,
-        "products": products
+        "as_resp": "",
+        "context": chat_type,
+        "assistant_resp": response,
+        "products": products,
+        "facets": facets,
+        "follow_up_question": {
+            "options": options,
+            "question": response
+        },
+        "msTaken": 1,
+        "product_summary_resp": response,
+        "suggested_filters": options,
+        "suggested_queries": ""
     }
     print(f"{json.dumps(full_response, indent=4)}\n\n\n\n")
     return full_response
@@ -89,22 +104,22 @@ if __name__ == "__main__":
     _ = chat(ver, uid, _data.text)
     # print(_)
 
-    _data = SampleData(_["options"][0])
+    _data = SampleData(_["suggested_filters"][0])
     _ = chat(ver, uid, _data.text)
     # print(_)
 
-    _data = SampleData(_["options"][0])
+    _data = SampleData(_["suggested_filters"][0])
     _ = chat(ver, uid, _data.text)
     # print(_)
 
-    _data = SampleData("oranges")
+    _data = SampleData("chocolates")
     _ = chat(ver, uid, _data.text)
     # print(_)
 
-    _data = SampleData(_["options"][0])
+    _data = SampleData(_["suggested_filters"][0])
     _ = chat(ver, uid, _data.text)
     # print(_)
 
-    _data = SampleData(_["options"][0])
+    _data = SampleData(_["suggested_filters"][0])
     _ = chat(ver, uid, _data.text)
     # print(_)
