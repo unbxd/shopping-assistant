@@ -69,26 +69,26 @@ jobs:
           docker tag $SERVICE:latest $ECR_URL/$SERVICE:$TAG
           docker push $ECR_URL/$SERVICE:$TAG
 
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: '${{ secrets.GCR_SERVICE_KEY }}'
+      # - id: 'auth'
+      #   uses: 'google-github-actions/auth@v1'
+      #   with:
+      #     credentials_json: '${{ secrets.GCR_SERVICE_KEY }}'
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v1'
+      # - name: 'Set up Cloud SDK'
+      #   uses: 'google-github-actions/setup-gcloud@v1'
 
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
+      # - name: 'Use gcloud CLI'
+      #   run: 'gcloud info'
 
-      - name: Push Docker image To GCR
-        if: ${{ steps.step_needed.outputs.OUT != 'false' }}
-        id: image-push-gcr
-        env:
-          TAG: ${{ steps.extract_tag.outputs.BUILD_TAG }}
-        run: |
-          gcloud auth configure-docker -q
-          docker tag $SERVICE:latest $GCR_URL/$GCR_PROJECT_ID/$SERVICE:$TAG
-          docker push $GCR_URL/$GCR_PROJECT_ID/$SERVICE:$TAG
+      # - name: Push Docker image To GCR
+      #   if: ${{ steps.step_needed.outputs.OUT != 'false' }}
+      #   id: image-push-gcr
+      #   env:
+      #     TAG: ${{ steps.extract_tag.outputs.BUILD_TAG }}
+      #   run: |
+      #     gcloud auth configure-docker -q
+      #     docker tag $SERVICE:latest $GCR_URL/$GCR_PROJECT_ID/$SERVICE:$TAG
+      #     docker push $GCR_URL/$GCR_PROJECT_ID/$SERVICE:$TAG
 
       - uses: act10ns/slack@v1
         with:
