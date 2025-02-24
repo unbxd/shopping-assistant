@@ -49,7 +49,7 @@ def chat(vertical, user_id, user_query):
     if (mimir_response.get("num_products") > PRODUCTS_THRESHOLD) and (len(facets) > 0) and (len(all_filters) <= 3):
         top_facet = mimir_response["facets"][0]
         options = top_facet["filter_options"]
-        response = generate_filter_question(top_facet)
+        response = generate_filter_question(solr_query, top_facet)
         options = generate_valid_options(solr_query, {k[0]: k[1] for k in all_filters}, response, options)
 
         all_filters.append([top_facet["filter_field"], options])

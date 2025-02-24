@@ -40,9 +40,14 @@ def generate_valid_options(solr_query: str, filters: dict, follow_up_query: str,
 
     try:
         data = json.loads(response.choices[0].message.content)
-        new_options = data.get("filtered_options", [])
-        print(new_options)
-        new_options = [i for i, score in new_options.items() if score >= 0.5]
+        scores = data.get("filtered_options", [])
+        print(scores)
+        new_options = [i for i, score in scores.items() if score >= 0.5]
+        # if len(new_options) == 0:
+        #     new_options = [i for i, score in scores.items() if score >= 0.1]
+        if len(new_options) == 0:
+            new_options = [i for i, score in scores.items()]
+
     except:
         print(response.choices[0].message.content)
         new_options = []
