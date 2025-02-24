@@ -31,9 +31,6 @@ def chat(vertical, user_id, user_query):
         all_filters.append([prev_filter_field, user_query])
         chat_type = "old_conversation"
     else:
-        prev_filter_field = ""
-        prev_options = []
-
         remove_idx = None
         for idx, filter_info in enumerate(all_filters):
             if filter_info[0] == "brandName_uFilter":
@@ -63,7 +60,6 @@ def chat(vertical, user_id, user_query):
         response = generate_filter_question(solr_query, top_facet)
         options = generate_valid_options(solr_query, {k[0]: k[1] for k in all_filters}, response, options)
 
-        all_filters.append([top_facet["filter_field"], options])
         prev_filter_field = top_facet["filter_field"]
         prev_options = options
         products = []
@@ -111,26 +107,38 @@ if __name__ == "__main__":
 
     chat_store_client.delete(uid)
 
-    _data = SampleData("show me some apples")
+    _data = SampleData("I am hosting a party")
     _ = chat(ver, uid, _data.text)
     # print(_)
 
-    _data = SampleData(_["suggested_filters"][0])
+    _data = SampleData("vegetarian")
     _ = chat(ver, uid, _data.text)
     # print(_)
 
-    _data = SampleData(_["suggested_filters"][0])
+    _data = SampleData("I think dumplings would be perfect")
     _ = chat(ver, uid, _data.text)
     # print(_)
 
-    _data = SampleData("chocolates")
+    _data = SampleData("Something with a dip")
     _ = chat(ver, uid, _data.text)
     # print(_)
 
-    _data = SampleData(_["suggested_filters"][0])
+    _data = SampleData("Perfect. Can you show me other party snacks?")
     _ = chat(ver, uid, _data.text)
     # print(_)
 
-    _data = SampleData(_["suggested_filters"][0])
+    _data = SampleData("Sausages maybe?")
+    _ = chat(ver, uid, _data.text)
+    # print(_)
+
+    _data = SampleData("Tivall")
+    _ = chat(ver, uid, _data.text)
+    # print(_)
+
+    _data = SampleData("Great. Do you have any alcohol?")
+    _ = chat(ver, uid, _data.text)
+    # print(_)
+
+    _data = SampleData("BrewDog")
     _ = chat(ver, uid, _data.text)
     # print(_)
