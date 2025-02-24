@@ -52,6 +52,9 @@ class MimirClient:
 
         products = []
         for product in content.get("response", {}).get("products", []):
+            if "imageUrl" not in product:
+                continue
+
             products.append({
                 "productId": product["uniqueId"],
                 "title": product["name"],
