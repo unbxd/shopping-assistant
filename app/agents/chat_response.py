@@ -12,7 +12,7 @@ def generate_chat_response(vertical: str, messages: List, products: List) -> str
         model="gpt-4o-mini",  # Using 4o-mini model
         messages=[
             {"role": "system",
-             "content": f"You are a chatbot for '{vertical}' vertical. Read the old chat messages, and also we have some products that we will be showing to the user. Do not give me the products as those will be shown, just give me a chat response. Generate a friendly response to show to the user alongside the products."},
+             "content": f"You are a chatbot for '{vertical}' vertical. Read the old chat messages, and also we have some products that we will be showing to the user. Generate a friendly response to show to the user alongside the products. **Do not give me the products information in the response**, as those will be shown, just give me a chat response."},
             *[{"role": msg[0], "content": msg[1]} for msg in messages],
             {"role": "system",
               "content": f"Here are the products that will be shown to the user: {json.dumps(products, indent=4)}"}
