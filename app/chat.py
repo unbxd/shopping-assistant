@@ -35,7 +35,7 @@ def chat(vertical, user_id, user_query):
         prev_options = []
 
         remove_idx = None
-        for idx, filter_info in all_filters:
+        for idx, filter_info in enumerate(all_filters):
             if filter_info[0] == "brandName_uFilter":
                 remove_idx = idx
                 break
