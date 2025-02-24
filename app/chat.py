@@ -31,6 +31,17 @@ def chat(vertical, user_id, user_query):
         all_filters.append([prev_filter_field, user_query])
         chat_type = "old_conversation"
     else:
+        prev_filter_field = ""
+        prev_options = []
+
+        remove_idx = None
+        for idx, filter_info in all_filters:
+            if filter_info[0] == "brandName_uFilter":
+                remove_idx = idx
+                break
+        if remove_idx:
+            del all_filters[remove_idx]
+
         chat_type = classify_chat(msg_history)
 
         if chat_type == "new_conversation":
