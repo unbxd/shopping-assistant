@@ -57,13 +57,19 @@ class Script:
             script = self.find_script(text)
             self.uids[uid] = copy.deepcopy(script)
 
-        first_response = self.uids[uid].pop(0)
+        if len(self.uids[uid]) > 0:
+            first_response = self.uids[uid].pop(0)
+        else:
+            del self.uids[uid]
+            return self.chat(uid, text)
+
         response_message = first_response["response"]
         product_query = first_response["products"]
         products = []
         if len(product_query) == 2:
             query, filters = product_query
-            products = mimir_client.fetch("eu-west-2", "ss-unbxd-prod-waitrose37331668673646", query, filters)
+            products = mimir_client.fetch("eu-west-2", "ss-unbxd-prod-waitrose37331668673646",
+                                          query, filters)["products"]
         options = first_response["options"]
 
         response = {
@@ -82,7 +88,7 @@ class Script:
             "suggested_queries": ""
         }
 
-        time.sleep(random.randint(1, 3000) / 1000)
+        time.sleep(random.randint(1000, 2500) / 1000)
 
         return response
 
@@ -99,7 +105,7 @@ async def chat_endpoint(vertical, req: Request):
     try:
         response = script_client.chat(uid, text)
 
-    except NameError:
+    except (NameError, KeyError):
         response = chat(vertical, uid, text)
 
     return response
