@@ -12,24 +12,128 @@ mimir_client = MimirClient()
 SCRIPTS = {
     "hosting a party": [
         {
-            "response": "What kind of party is it, and is there any specific theme to it?",
+            "response": "That sounds fantastic! Let’s make sure your party is a hit. What kind of celebration are you planning?",
+            "products": [],
+            "options": ["Casual Get-Together", "Dinner Party", "Kids’ Birthday Party", "Cocktail Party", "Outdoor BBQ", "Themed Party", "Other"]
+        },
+        {
+            "response": "A relaxed birthday party? Love it! Think delicious cake, easy-to-eat bites, refreshing drinks, and some decoration. Let’s start with snacks—what sounds good?",
+            "products": [],
+            "options": ["Finger Foods", "Casual Bites", "A Mix of Both"]
+        },
+        {
+            "response": "Great choice! Quick, tasty, and mess-free. Do you have any dietary preferences for your guests?",
+            "products": [],
+            "options": ["Nut-Free", "Peanut-Free", "Egg-Free", "Vegetarian", "Low-Sugar", "Dairy-Free", "Vegan", "Soy-Free", "Fair Trade", "Gluten-Free", "Low-Fat", "No preference"]
+        },
+        {
+            "response": "Perfect! Here are some amazing vegetarian snack options to keep everyone happy.",
+            "products": ["party snacks", {"diet_uFilter": "vegetarian"}],
+            "options": []
+        },
+        {
+            "response": "Excellent pick! Dumplings are always a crowd-pleaser. Here are some tasty vegetarian options:",
+            "products": ["dumpling", {"diet_uFilter": "vegetarian"}],
+            "options": []
+        },
+        {
+            "response": "Dipping sauce makes everything better! Here are dumpling options that come with a flavorful dip:",
+            "products": ["dumpling with dip", {"diet_uFilter": "vegetarian"}],
+            "options": []
+        },
+        {
+            "response": "Of course! Here are more vegetarian-friendly snack ideas to keep your guests munching happily:",
+            "products": ["party snacks", {"diet_uFilter": "vegetarian"}],
+            "options": []
+        },
+        {
+            "response": "Great idea! Vegetarian nuggets are a guaranteed hit. Here are some options to choose from:",
+            "products": ["nuggets", {"diet_uFilter": "vegetarian"}],
+            "options": []
+        },
+        {
+            "response": "Would you like a dipping sauce with those? Here are a few recommendations?",
+            "products": [],
+            "options": ["Barbecue", "Honey Mustard", "Spicy Mayo"]
+        },
+        {
+            "response": "Classic choice! Your snack table is shaping up nicely. Would you like to move on, or check out more snack options?",
+            "products": [],
+            "options": ["Move on to the next item", "Look at more snack options"]
+        },
+        {
+            "response": "We haven’t covered desserts yet! Would you like to add something sweet, like cookies or brownies?",
             "products": [],
             "options": []
         },
         {
-            "response": "What dietary preferences or restrictions do you have in mind for your party?",
-            "products": [],
-            "options": ["nutfree", "peanutfree", "eggfree", "vegetarian", "lowsugar", "dairyfree", "vegan", "soyafree",
-                        "fairtrade", "glutenfree", "low", "fat"]
-        },
-        {
-            "response": "That sounds like a fantastic idea! Hosting a vegetarian party can be a lot of fun with so many delicious options to choose from. I’ve got some great suggestions for you that will wow your guests and keep the party vibe going. Let's check them out!",
-            "products": ["party supplies", {"diet_uFilter": "vegetarian"}],
+            "response": "Brownies? Great pick! Here are some delicious options your guests will love:",
+            "products": ["brownies", {"diet_uFilter": "vegetarian"}],
             "options": []
         },
         {
-            "response": "Dumplings are a fantastic choice for a party! They’re sure to be a hit with your guests. I have some delicious dumpling options that you can serve up. Check them out below and let me know which ones you'd like to include in your menu!",
-            "products": ["dumplings", {"diet_uFilter": "vegetarian"}],
+            "response": "Fantastic choice. Now, shall we move on to drinks?",
+            "products": [],
+            "options": ["Yes", "No, I want to see more dessert options"]
+        },
+        {
+            "response": "Are you planning to serve alcohol at your party?",
+            "products": [],
+            "options": ["Yes", "No"]
+        },
+        {
+            "response": "What kind of drinks are you looking for?",
+            "products": [],
+            "options": ["Beer", "Whiskey and Scotch", "Wine", "Cocktail mix", "Other"]
+        },
+        {
+            "response": "Sure! Any particular brewery you’d like to go for?",
+            "products": [],
+            "options": ["BrewDog", "Beavertown", "Fuller’s", "Adnams", "Birra Moretti"]
+        },
+        {
+            "response": "Great choice! Here are some Birra Moretti beers that pair well with your vegetarian menu:",
+            "products": ["beer", {"diet_uFilter": "vegetarian", "brandName_uFilter": "Birra Moretti"}],
+            "options": []
+        },
+        {
+            "response": "Absolutely! What’s your decor style for the party?",
+            "products": [],
+            "options": ["Minimalist & Elegant", "Colorful & Fun", "Rustic & Cozy", "Themed Party Décor", "Other"]
+        },
+        {
+            "response": "Love it! A lively setup will set the mood. Here are some decoration options that’ll add fun and energy to your space:",
+            "products": ["party decor", {}],
+            "options": []
+        },
+        {
+            "response": "Great! Now, let’s talk about the cake. Which flavor of cake do you have in mind?",
+            "products": [],
+            "options": ["Chocolate", "Vanilla", "Cheesecake", "Fruit Cake", "Other"]
+        },
+        {
+            "response": "Sure. Here are a few cake options.",
+            "products": ["cake", {}],
+            "options": []
+        },
+        {
+            "response": "That sounds fun! Here are some undecorated cake options:",
+            "products": ["undecorated cake", {}],
+            "options": []
+        },
+        {
+            "response": "Classic and always a hit! Would you like to add cake decorating supplies like icing, sprinkles, or candles?",
+            "products": [],
+            "options": ["Yes", "No, I already have those"]
+        },
+        {
+            "response": "Sounds like you’re all set! Anything else you'd like to add?",
+            "products": [],
+            "options": ["Yes", "No"]
+        },
+        {
+            "response": "Perfect! Your party is going to be amazing. Let me know if you need anything else. Have a fantastic celebration!",
+            "products": [],
             "options": []
         }
     ]
