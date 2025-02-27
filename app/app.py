@@ -192,7 +192,13 @@ class Script:
             "suggested_queries": ""
         }
 
-        time.sleep(random.randint(1000, 2500) / 1000)
+        sleep_duration = 0
+        sleep_duration += random.randint(1000, 1500) / 1000
+        if options:
+            sleep_duration += random.randint(100, 300) / 1000 + len(options) * random.randint(40, 60) / 1000
+        if products:
+            sleep_duration += random.randint(100, 300) / 1000
+        time.sleep(sleep_duration)
 
         return response
 
