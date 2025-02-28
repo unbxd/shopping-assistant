@@ -17,7 +17,7 @@ SCRIPTS = {
             "options": ["Casual Get-Together", "Dinner Party", "Kids’ Birthday Party", "Cocktail Party", "Outdoor BBQ", "Themed Party", "Other"]
         },
         {
-            "response": "A relaxed birthday party? Love it! Think delicious cake, easy-to-eat bites, refreshing drinks, and some decoration. Let’s start with snacks—what sounds good?",
+            "response": "Love it! Think delicious cake, easy-to-eat bites, refreshing drinks, and some decoration. Let’s start with snacks—what sounds good?",
             "products": [],
             "options": ["Finger Foods", "Casual Bites", "A Mix of Both"]
         },
@@ -52,9 +52,14 @@ SCRIPTS = {
             "options": []
         },
         {
-            "response": "Would you like a dipping sauce with those? Here are a few recommendations?",
+            "response": "Would you like a dipping sauce with those?",
             "products": [],
-            "options": ["Barbecue", "Honey Mustard", "Spicy Mayo"]
+            "options": ["Yes", "No"]
+        },
+        {
+            "response": "Here are a few fun dipping sauce options",
+            "products": ["dipping sauce", {"diet_uFilter": "vegetarian"}],
+            "options": []
         },
         {
             "response": "Classic choice! Your snack table is shaping up nicely. Would you like to move on, or check out more snack options?",
@@ -64,7 +69,7 @@ SCRIPTS = {
         {
             "response": "We haven’t covered desserts yet! Would you like to add something sweet, like cookies or brownies?",
             "products": [],
-            "options": []
+            "options": ["Yes", "No"]
         },
         {
             "response": "Brownies? Great pick! Here are some delicious options your guests will love:",
