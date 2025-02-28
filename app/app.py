@@ -58,7 +58,7 @@ SCRIPTS = {
         },
         {
             "response": "Here are a few fun dipping sauce options",
-            "products": ["dipping sauce", {"diet_uFilter": "vegetarian"}],
+            "products": ["sauce with dip", {"diet_uFilter": "vegetarian"}],
             "options": []
         },
         {
@@ -114,7 +114,7 @@ SCRIPTS = {
         {
             "response": "Great! Now, let’s talk about the cake. Which flavor of cake do you have in mind?",
             "products": [],
-            "options": ["Chocolate", "Vanilla", "Cheesecake", "Fruit Cake", "Other"]
+            "options": ["Chocolate", "Vanilla", "Cheesecake", "Fruit Cake", "No Preference"]
         },
         {
             "response": "Sure. Here are a few cake options.",
@@ -203,7 +203,7 @@ class Script:
             sleep_duration += random.randint(100, 300) / 1000 + len(options) * random.randint(40, 60) / 1000
         if products:
             sleep_duration += random.randint(100, 300) / 1000
-        time.sleep(sleep_duration)
+        # time.sleep(sleep_duration)
 
         return response
 
