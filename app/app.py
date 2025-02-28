@@ -203,7 +203,7 @@ class Script:
             sleep_duration += random.randint(100, 300) / 1000 + len(options) * random.randint(40, 60) / 1000
         if products:
             sleep_duration += random.randint(100, 300) / 1000
-        # time.sleep(sleep_duration)
+        time.sleep(sleep_duration)
 
         return response
 
