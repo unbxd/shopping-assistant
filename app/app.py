@@ -58,7 +58,7 @@ SCRIPTS = {
         },
         {
             "response": "Here are a few fun dipping sauce options",
-            "products": ["sauce with dip", {"diet_uFilter": "vegetarian"}],
+            "products": ["mustard sauce", {"diet_uFilter": "vegetarian"}],
             "options": []
         },
         {
